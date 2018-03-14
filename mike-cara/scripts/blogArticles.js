@@ -174,4 +174,3 @@ let rawData = [
 
   },
 ];
-rawData();
