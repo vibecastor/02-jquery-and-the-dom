@@ -1,18 +1,43 @@
+.icon-menu {
+  display: block;
+  font-size: 2em;
+  float: right;
+}
+
+.main-nav ul {
+  display: none;
+}
+
+.main-nav:hover ul {
+  display: block;
+}
+
+.icon-menu:hover {
+  display: block;
+
+}
+
 @media screen and (min-width: 640px) {
   .main-nav ul li {
     display: inline;
     border-bottom: none;
     padding-left: 10px;
   }
-  .icon-menu {
-    display: none;
+
+  .main-nav ul {
+    display: block;
   }
+
+.icon-menu {
+  display: none;
+}
+
   .pull-left {
     max-width: 75%;
     display: inline;
   }
+
   .pull-right {
     max-width: 75%;
     display: inline;
   }
-  

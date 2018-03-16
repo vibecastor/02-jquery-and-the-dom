@@ -20,9 +20,12 @@ Article.prototype.toHtml = function() {
   // Cloning is a "deep copy" of the set of matched elements which means that it copy's the matched element as well as its descendants and nodes.  This avoids having to append all the elements in vanilla JS.
 
   let $newArticle = $('article.template').clone();
+  $newArticle.removeClass('template');
   /* TODO: This cloned article still has a class of template. In our modules.css stylesheet, we should give all elements with a class of template a display of none so that our template does not display in the browser. But, we also need to make sure we're not accidentally hiding our cloned article. DONE! */
 
-  if (!this.publishedOn) $newArticle.addClass('draft');
+  if (!this.publishedOn) {
+    $newArticle.addClass('draft');
+  }
   $newArticle.attr('data-category', this.category);
 
   /* TODO: Now use jQuery traversal and setter methods to fill in the rest of the current template clone with values of the properties of this particular Article instance.
@@ -33,19 +36,19 @@ Article.prototype.toHtml = function() {
       4. article body, and
       5. publication date. */
 
-  $(a) = .this;
-
-  //read
-  // $('address').html(rawData.authorUrl);
-  // $('h1').html(rawData.title);
-  // $('.article-body').html(rawData.body);
-  // $('time').html(rawData.publishedOn);
-
-  // REVIEW: Display the date as a relative number of 'days ago'
-  $newArticle.find('time').html('about ' + parseInt((new Date() - new Date(this.publishedOn))/60/60/24/1000) + ' days ago');
+  $newArticle.find('.byline a').html(this.author);
+  $newArticle.find('.byline a').attr('href', this.authorUrl);
+  $newArticle.find('h1:first').html(this.title);
+  $newArticle.find('.article-body').html(this.body);
+  $newArticle.find('time[pubdate]').attr('datetime', this.publishedOn);
+  $newArticle.find('time[pubdate]').attr('title', this.publishedOn);
+  $newArticle.find('time').html('about ' + parseInt((new Date() - new Date (this.publishedOn)) / 60 / 60 / 24 / 1000) + ' days ago');
   $newArticle.append('<hr>');
   return $newArticle;
 };
+
+// REVIEW: Display the date as a relative number of 'days ago'
+
 
 rawData.sort(function(a,b) {
   // REVIEW: Take a look at this sort method; This may be the first time we've seen it. Look at the docs and think about how the dates would be sorted if the callback were not included in this method.
@@ -54,10 +57,10 @@ rawData.sort(function(a,b) {
 
 // TODO: Refactor these for loops using the .forEach() array method.
 
-for(let i = 0; i < rawData.length; i++) {
-  articles.push(new Article(rawData[i]));
-}
+rawData.forEach(function(articleObject) {
+  articles.push(new Article(articleObject));
+});
 
-for(let i = 0; i < articles.length; i++) {
-  $('#articles').append(articles[i].toHtml());
-}
+articles.forEach(function(article) {
+  $('#articles').append(article.toHtml());
+});
